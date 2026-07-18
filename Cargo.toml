@@ -10,10 +10,37 @@ publish = false
 
 [dependencies]
 # The audited OS floor (the only crate that touches the syscalls) …
-mycelium-std-sys = { path = "../mycelium-std-sys" }
+mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "95957a5a91e42f003709d584e47783777e4a4618" }
 # … and the pure std crates whose injectable seams this crate fills with the real source.
-mycelium-std-rand = { path = "../mycelium-std-rand" }
-mycelium-std-time = { path = "../mycelium-std-time" }
+mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "093d40ca7a90224de2c2aab0d0fb0fd3717809b5" }
+mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "fedd18411bf33cc2cd2b0d7ba41e1259719d23c0" }
 
 [lints]
 workspace = true
+
+# --- standalone workspace root (course-correction Phase B, 2026-07-18; steer handoff §6.2) ---
+[workspace]
+
+[workspace.package]
+version = "0.464.0"
+edition = "2021"
+rust-version = "1.96.1"
+license = "MIT"
+repository = "https://github.com/tzervas/mycelium-std-sys-host"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+blake3 = "1"
+
+[workspace.lints.rust]
+# ADR-014: unsafe permitted-but-documented; the check is clippy::undocumented_unsafe_blocks.
+unsafe_code = "allow"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+undocumented_unsafe_blocks = "warn"
+
+# G2 never-silent arithmetic: release builds panic on overflow (monorepo parity).
+[profile.release]
+overflow-checks = true
