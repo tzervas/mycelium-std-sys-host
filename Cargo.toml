@@ -12,8 +12,8 @@ publish = false
 # The audited OS floor (the only crate that touches the syscalls) …
 mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "95957a5a91e42f003709d584e47783777e4a4618" }
 # … and the pure std crates whose injectable seams this crate fills with the real source.
-mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "093d40ca7a90224de2c2aab0d0fb0fd3717809b5" }
-mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "fedd18411bf33cc2cd2b0d7ba41e1259719d23c0" }
+mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "088256c5f29031e487cb7a335cbc9ff29794b58d" }
+mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "47ef9e7ec4143c97878083ca5c15930a21eeed83" }
 
 [lints]
 workspace = true
