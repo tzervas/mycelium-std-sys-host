@@ -1,36 +1,39 @@
-# install_default_host_ops — contract (WP-4)
+# install_default_host_ops — contract (WP-4 / S-HOST-REGISTRY)
 
 **Spike S1 (2026-08-01):** this crate owns the *default* host op table.
 
-## Signature (lands when `mycelium-runtime` #11 merges)
+## Signature (`feature = "host-registry"`)
 
 ```rust
-// feature = "host-registry"
-use mycelium_interp::{install_host_ops, PrimRegistry};
+use mycelium_interp::PrimRegistry;
+use mycelium_std_sys_host::install_default_host_ops;
 
-pub fn install_default_host_ops(reg: &mut PrimRegistry) {
-    // Map audited std-sys floor → wild: names
-    // install_host_ops(reg, &[
-    //   ("time_mono_nanos", host_time_mono),
-    //   ("rand_fill", host_rand_fill),
-    //   // fs / process follow
-    // ]);
-}
+// after PrimRegistry::with_builtins():
+let mut reg = PrimRegistry::with_builtins();
+install_default_host_ops(&mut reg);
+// Interpreter::new(reg, swap) — CLI bind (L-CLI)
 ```
 
-## v0 first ops (blocking-hypha)
+## v0 ops (blocking-hypha)
 
-| wild name | Floor | Notes |
-|-----------|-------|-------|
-| `time_mono_nanos` | `std_sys::time::mono_nanos` | total |
-| `time_wall_nanos` | `std_sys::time::wall_nanos` | never-silent err |
-| `rand_fill` | `std_sys::rand::fill_bytes` | never-silent err |
-| `fs_*` | RealFs wiring | after M-541 floor complete |
-
-## Who calls
-
-`myc` CLI run path after `PrimRegistry::with_builtins()`, before eval.
+| wild name | Floor | Arity / result | Encoding notes |
+|-----------|-------|----------------|----------------|
+| `time_mono_nanos` | `std_sys::time::mono_nanos` | `() → Binary{64}` | unsigned MSB-first; total |
+| `time_wall_nanos` | `std_sys::time::wall_nanos` | `() → Binary{64}` | unsigned MSB-first of `u64`; pre-epoch / `u128→u64` overflow → `EvalError::PrimType` (G2) |
+| `rand_fill` | `std_sys::rand::fill_bytes` | `(Binary{W}) → Bytes` | length = unsigned Binary magnitude (checked); OS fail → `PrimType`, never silent zero-fill |
+| `fs_*` | RealFs wiring | later | after floor complete |
 
 ## Deps
 
-`mycelium-interp` with `register_host` — pin to post-#11 rev. Feature-gated so pure OsEntropy/OsClock users stay light.
+- `mycelium-interp` — pin to post-#11 rev (`register_host` / `install_host_ops`). Current train pin: runtime branch `train/gap-closure-host-call-registry` head until merge.
+- `mycelium-core` — Value / Binary / Bytes encoding (same rev as interp's core pin).
+
+Feature-gated so pure OsEntropy/OsClock users stay light.
+
+## Who calls
+
+`myc` CLI run path after `PrimRegistry::with_builtins()`, before eval (L-CLI).
+
+## Guarantee
+
+Ambient OS results are `Declared` + zero-ε `UserDeclared` bound (VR-5). See `src/host_registry.rs` rustdoc.
