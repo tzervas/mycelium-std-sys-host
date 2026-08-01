@@ -18,16 +18,16 @@ host-registry = ["dep:mycelium-interp", "dep:mycelium-core"]
 [dependencies]
 # The audited OS floor (the only crate that touches the syscalls) …
 # Pin includes process::spawn/wait/kill + ProcessTable (WP-5 floor, std-sys#10).
-mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "0de74f60cdd26c25db6704c64f17f08fca0c52af" }
+mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "4f4a636540e070b0b1ce4cd39bc6bf80316f38db" }
 # … and the pure std crates whose injectable seams this crate fills with the real source.
-mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "088256c5f29031e487cb7a335cbc9ff29794b58d" }
-mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "47ef9e7ec4143c97878083ca5c15930a21eeed83" }
+mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "6cfc39c63db95ab2a39ba2e229933de15fbd4634" }
+mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "56466cab96898a324c5e16a1dce4a241e1ab927a" }
 
 # Feature-gated: HostCallRegistry dispatch table (interp) + Value encoding (core).
 # Pin mycelium-interp to mycelium-runtime main tip (HostCallRegistry merged, runtime#11).
-mycelium-interp = { git = "https://github.com/tzervas/mycelium-runtime", rev = "cb3a96348f718661dbd3db43224a036df272e177", optional = true }
+mycelium-interp = { git = "https://github.com/tzervas/mycelium-runtime", rev = "2317cd1694496b72225213a9fdc59407a907b495", optional = true }
 # Same core rev as mycelium-interp on that tip (encoding helpers + Value construction).
-mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "3958d2ea3c3921611e33f1f00e3469b29a939a76", optional = true }
+mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "57ef45b453eef1f02bdfb1f0cad1034dabd32b1f", optional = true }
 
 [lints]
 workspace = true
