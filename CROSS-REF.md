@@ -9,8 +9,10 @@ content hash = git tree hash of the pinned rev.
 | mycelium-std-rand | https://github.com/tzervas/mycelium-std-rand | `088256c5f29031e487cb7a335cbc9ff29794b58d` | tree `(tree hash: fetch dep rev locally to resolve)` | Rust API of `mycelium-std-rand` (see monorepo `docs/api-index/INDEX.md#mycelium-std-rand`) |
 | mycelium-std-sys | https://github.com/tzervas/mycelium-std-sys | `95957a5a91e42f003709d584e47783777e4a4618` | tree `853d1d2609cd4ddfee92b637d6aef5e045f3eb84` | Rust API of `mycelium-std-sys` (see monorepo `docs/api-index/INDEX.md#mycelium-std-sys`) |
 | mycelium-std-time | https://github.com/tzervas/mycelium-std-time | `47ef9e7ec4143c97878083ca5c15930a21eeed83` | tree `(tree hash: fetch dep rev locally to resolve)` | Rust API of `mycelium-std-time` (see monorepo `docs/api-index/INDEX.md#mycelium-std-time`) |
+| mycelium-interp *(feature `host-registry`)* | https://github.com/tzervas/mycelium-runtime | `0a284a79573ecfdab3db719c5f76ee9abcd155c1` | train/gap-closure-host-call-registry (runtime#11 head; re-pin after merge) | `PrimRegistry::register_host` / `install_host_ops` |
+| mycelium-core *(feature `host-registry`)* | https://github.com/tzervas/mycelium-core | `46d2515cbd86d2ae4d1365f4adcd2796737e9f0b` | same core rev as interp on that tip | Value / Binary / Bytes encoding for wild: host results |
 
-**Owning docs:** `docs/spec/stdlib/sys.md` (slice in this repo) · RFC-0016.
+**Owning docs:** `docs/spec/stdlib/sys.md` (slice in this repo) · `docs/INSTALL_HOST_OPS.md` · RFC-0016 · S-HOST-REGISTRY.
 **Source provenance:** extracted from `tzervas/mycelium` archive `aad96b7a…`; fixed by
 the course-correction Phase B (workspace root, git pins, toolchain + supply-chain
 replicas, CI v2). Full program record: monorepo

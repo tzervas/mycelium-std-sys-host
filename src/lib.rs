@@ -8,6 +8,13 @@ use mycelium_std_time::{
     WallInstant,
 };
 
+/// Default `wild:` host-op install (`install_default_host_ops`). Feature `host-registry`.
+#[cfg(feature = "host-registry")]
+pub mod host_registry;
+
+#[cfg(feature = "host-registry")]
+pub use host_registry::install_default_host_ops;
+
 /// The production [`EntropySource`] — fills entropy from the audited `std-sys` OS floor
 /// (`/dev/urandom` via `std::fs`; M-723). This is the seam `std-rand` left injectable: the pure
 /// `std-rand` crate never touches the OS, and this adapter supplies the real source.
