@@ -9,22 +9,23 @@ description = "Production host wiring: connects the pure std crates' injectable 
 publish = false
 
 [features]
-# HostCallRegistry install surface (WP-4 / S-HOST-REGISTRY): depends on mycelium-interp's
-# PrimRegistry::register_host API (mycelium-runtime#11). Off by default so pure OsEntropy/OsClock
-# consumers stay light.
+# HostCallRegistry install surface (WP-4 / S-HOST-REGISTRY + WP-5 process): depends on
+# mycelium-interp's PrimRegistry::register_host API (mycelium-runtime#11). Off by default so pure
+# OsEntropy/OsClock consumers stay light.
 default = []
 host-registry = ["dep:mycelium-interp", "dep:mycelium-core"]
 
 [dependencies]
 # The audited OS floor (the only crate that touches the syscalls) …
-mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "95957a5a91e42f003709d584e47783777e4a4618" }
+# Pin includes process::spawn/wait/kill + ProcessTable (WP-5 floor, std-sys#10).
+mycelium-std-sys = { git = "https://github.com/tzervas/mycelium-std-sys", rev = "0de74f60cdd26c25db6704c64f17f08fca0c52af" }
 # … and the pure std crates whose injectable seams this crate fills with the real source.
 mycelium-std-rand = { git = "https://github.com/tzervas/mycelium-std-rand", rev = "088256c5f29031e487cb7a335cbc9ff29794b58d" }
 mycelium-std-time = { git = "https://github.com/tzervas/mycelium-std-time", rev = "47ef9e7ec4143c97878083ca5c15930a21eeed83" }
 
 # Feature-gated: HostCallRegistry dispatch table (interp) + Value encoding (core).
-# Pin mycelium-interp to the train/gap-closure-host-call-registry tip (runtime#11 head) until merge.
-mycelium-interp = { git = "https://github.com/tzervas/mycelium-runtime", rev = "0a284a79573ecfdab3db719c5f76ee9abcd155c1", optional = true }
+# Pin mycelium-interp to mycelium-runtime main tip (HostCallRegistry merged, runtime#11).
+mycelium-interp = { git = "https://github.com/tzervas/mycelium-runtime", rev = "4af6d0051f4da4961a108869c56407e32b9a372b", optional = true }
 # Same core rev as mycelium-interp on that tip (encoding helpers + Value construction).
 mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "46d2515cbd86d2ae4d1365f4adcd2796737e9f0b", optional = true }
 
