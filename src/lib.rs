@@ -13,7 +13,7 @@ use mycelium_std_time::{
 pub mod host_registry;
 
 #[cfg(feature = "host-registry")]
-pub use host_registry::install_default_host_ops;
+pub use host_registry::{install_default_host_ops, install_process_host_ops};
 
 /// The production [`EntropySource`] — fills entropy from the audited `std-sys` OS floor
 /// (`/dev/urandom` via `std::fs`; M-723). This is the seam `std-rand` left injectable: the pure
